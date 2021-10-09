@@ -6,9 +6,10 @@
  * @source https://github.com/Creepler13/LawlietFishCounter
  * @authorLink https://github.com/Creepler13
  * @authorId 264027550240604161
+ * @version 0.2.10
  */
 
- module.exports = class LawlietFishCounter {
+module.exports = class LawlietFishCounter {
   load() {
     require("request").get(
       "https://raw.githubusercontent.com/Creepler13/LawlietFishCounter/main/LawlietFishCounter.plugin.js",
@@ -37,9 +38,12 @@
                     ),
                     body,
                     (_) =>
-                      BdApi.showToast("Finished downloading Update "+newVersion, {
-                        type: "success",
-                      })
+                      BdApi.showToast(
+                        "Finished downloading Update " + newVersion,
+                        {
+                          type: "success",
+                        }
+                      )
                   );
                 },
               }
