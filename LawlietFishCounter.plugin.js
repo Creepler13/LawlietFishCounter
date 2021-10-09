@@ -22,9 +22,9 @@ module.exports = class LawlietFishCounter {
           if (this.getVersion() != newVersion)
             BdApi.showConfirmationModal(
               "LawlietFishCounter - Newer version found",
-              "LawlietFishCounter found a newer version " +
+              "LawlietFishCounter found a newer version (" +
                 newVersion +
-                ". Please click Download Now to install it.",
+                "). Please click Download Now to install it.",
               {
                 confirmText: "Download Now",
                 cancelText: "Cancel",
