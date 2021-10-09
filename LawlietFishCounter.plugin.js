@@ -8,7 +8,7 @@
  * @authorId 264027550240604161
  */
 
- module.exports = class LawlietFishCounter {
+module.exports = class LawlietFishCounter {
   load() {
     require("request").get(
       "https://raw.githubusercontent.com/Creepler13/LawlietFishCounter/main/LawlietFishCounter.plugin.js",
@@ -22,12 +22,14 @@
           if (this.getVersion() != newVersion)
             BdApi.showConfirmationModal(
               "Newer version found",
-              `LawlietFishCounter found a newer version. Please click "Download Now" to install it.`,
+              "LawlietFishCounter found a newer version " +
+                newVersion +
+                ". Please click Download Now to install it.",
               {
                 confirmText: "Download Now",
                 cancelText: "Cancel",
                 onCancel: () => {},
-                onConfirm: ()=>update(body),
+                onConfirm: () => update(body),
               }
             );
         }
@@ -36,7 +38,7 @@
   }
 
   getVersion() {
-    return "0.1.5";
+    return "0.1.6";
   }
 
   start() {}
