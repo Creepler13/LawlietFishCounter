@@ -1,7 +1,7 @@
 /**
  * @name LawlietFishCounter
  * @author Creepler13
- * @description Counts the Fish for Lawliet Work
+ * @description Counts the Fish for Lawliet
  * @updateUrl https://raw.githubusercontent.com/Creepler13/LawlietFishCounter/main/LawlietFishCounter.plugin.js
  * @source https://github.com/Creepler13/LawlietFishCounter
  * @authorLink https://github.com/Creepler13
@@ -38,7 +38,7 @@ module.exports = class LawlietFishCounter {
   }
 
   getVersion() {
-    return "0.1.7";
+    return "0.1.8";
   }
 
   start() {}
