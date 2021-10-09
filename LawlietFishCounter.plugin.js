@@ -1,6 +1,6 @@
 /**
  * @name LawlietFishCounter
- * @version 0.0.1
+ * @version 0.0.2
  * @author Creepler13
  * @description Counts the Fish for the Lawliet work option
  * @updateUrl https://raw.githubusercontent.com/Creepler13/LawlietFishCounter/main/LawlietFishCounter.plugin.js
