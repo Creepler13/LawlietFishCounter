@@ -1,6 +1,5 @@
 /**
  * @name LawlietFishCounter
- * @version 0.1.3
  * @author Creepler13
  * @description Counts the Fish for Lawliet Work
  * @updateUrl https://raw.githubusercontent.com/Creepler13/LawlietFishCounter/main/LawlietFishCounter.plugin.js
@@ -8,8 +7,38 @@
  * @authorLink https://github.com/Creepler13
  * @authorId 264027550240604161
  */
-module.exports = class LawlietFishCounter {
-  load() {}
+
+ module.exports = class LawlietFishCounter {
+  load() {
+    require("request").get(
+      "https://raw.githubusercontent.com/Creepler13/LawlietFishCounter/main/LawlietFishCounter.plugin.js",
+      (e, r, body) => {
+        if (!e && body && r.statusCode == 200) {
+          let newVersion = (
+            body.match(
+              /@version ([0-9]+\.[0-9]+\.[0-9]+)|['"]([0-9]+\.[0-9]+\.[0-9]+)['"]/i
+            ) || []
+          ).filter((n) => n)[1];
+          if (this.getVersion() != newVersion)
+            BdApi.showConfirmationModal(
+              "Newer version found",
+              `LawlietFishCounter found a newer version. Please click "Download Now" to install it.`,
+              {
+                confirmText: "Download Now",
+                cancelText: "Cancel",
+                onCancel: () => {},
+                onConfirm: update,
+              }
+            );
+        }
+      }
+    );
+  }
+
+  getVersion() {
+    return "0.1.4";
+  }
+
   start() {}
   stop() {}
 
@@ -76,4 +105,12 @@ function onMessage(message) {
       " = " +
       (emojis[searchedFish] - 1);
   }
+}
+
+function update(update) {
+  require("fs").writeFile(
+    require("path").join(BdApi.Plugins.folder, "LawlietFishCounter.plugin.js"),
+    update,
+    (_) => BdApi.showToast("Finished downloading Update", { type: "success" })
+  );
 }
