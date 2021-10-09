@@ -29,7 +29,19 @@
                 confirmText: "Download Now",
                 cancelText: "Cancel",
                 onCancel: () => {},
-                onConfirm: () => update(body),
+                onConfirm: () => {
+                  require("fs").writeFile(
+                    require("path").join(
+                      BdApi.Plugins.folder,
+                      "LawlietFishCounter.plugin.js"
+                    ),
+                    body,
+                    (_) =>
+                      BdApi.showToast("Finished downloading Update "+newVersion, {
+                        type: "success",
+                      })
+                  );
+                },
               }
             );
         }
@@ -37,29 +49,21 @@
     );
   }
 
+  onSwitch() {
+    updateMessages();
+  }
+
   getVersion() {
-    return "0.1.10";
+    return "0.2.10";
   }
 
   start() {}
   stop() {}
-
-  observer(changes) {
-    if (changes.type != "childList") return;
-    if (changes.addedNodes.length <= 0) return;
-    if (!changes.addedNodes[0].className) return;
-    if (
-      !changes.addedNodes[0].className.toString().startsWith("messageListItem")
-    )
-      return;
-
-    parseMessage(changes);
-  }
 };
 
-function parseMessage(changes) {
-  let msg = { element: changes.addedNodes[0] };
-  let spans = changes.addedNodes[0].getElementsByTagName("span");
+function parseMessage(element) {
+  let msg = { element: element };
+  let spans = element.getElementsByTagName("span");
   for (let index = 0; index < spans.length; index++) {
     let span = spans[index];
 
@@ -68,51 +72,78 @@ function parseMessage(changes) {
     }
   }
 
+  let divs = element.getElementsByTagName("div");
+  for (let index = 0; index < divs.length; index++) {
+    let div = divs[index];
+
+    if (div.className.startsWith("embedTitle")) {
+      msg.embedTitle = div.textContent.trim();
+    }
+
+    if (div.className.startsWith("embedDescription") && !msg.embedDescription) {
+      msg.embedDescription = div;
+    }
+  }
+
   onMessage(msg);
 }
 
 function countFish(message) {
-  let spans = message.element.getElementsByTagName("span");
+  let imgs = message.embedDescription.getElementsByTagName("img");
 
-  let emojis = {};
+  let emojis = { total: 0, specific: {} };
 
-  for (let index = 0; index < spans.length; index++) {
-    let span = spans[index];
-    if (span.className.startsWith("emojiContainer")) {
-      let emoji = span.getElementsByTagName("img")[0].alt;
+  for (let index = 0; index < imgs.length; index++) {
+    let img = imgs[index];
 
-      if (emoji == ":growth:") break;
+    let emoji = img.alt;
 
-      if (!emojis[emoji]) emojis[emoji] = 0;
+    if (emoji == ":growth:") break;
 
-      emojis[emoji]++;
-    }
+    if (!emojis.specific[emoji]) emojis.specific[emoji] = 0;
+
+    emojis.specific[emoji]++;
+    emojis.total++;
   }
 
   return emojis;
 }
 
 function onMessage(message) {
+  if (message.author != "L" || message.embedTitle != "Arbeit") return;
+  console.log(message.embedTitle);
   let emojis = countFish(message);
+  if (emojis.total == 0) return;
 
-  if (emojis["💼"]) {
-    let field = message.element.getElementsByTagName("strong")[0].parentElement;
-
-    let searchedFish = field.getElementsByTagName("img")[0].alt;
-
-    field.textContent =
-      field.textContent +
-      " " +
-      searchedFish +
+  message.embedDescription.textContent = "";
+  for (const key in emojis.specific) {
+    message.embedDescription.textContent =
+      message.embedDescription.textContent +
+      "\n" +
+      key +
       " = " +
-      (emojis[searchedFish] - 1);
+      emojis.specific[key];
+  }
+
+  message.element.counted = true;
+}
+
+function updateMessages() {
+  let ol = document.getElementsByTagName("ol");
+
+  if (ol.length == 0) return;
+
+  let messages = ol[0].getElementsByTagName("li");
+
+  observer.disconnect();
+  observer.observe(ol[0], { childList: true });
+
+  for (let index = 0; index < messages.length; index++) {
+    const element = messages[index];
+    if (!element.counted) parseMessage(element);
   }
 }
 
-function update(update) {
-  require("fs").writeFile(
-    require("path").join(BdApi.Plugins.folder, "LawlietFishCounter.plugin.js"),
-    update,
-    (_) => BdApi.showToast("Finished downloading Update", { type: "success" })
-  );
-}
+const observer = new MutationObserver((list) => {
+  updateMessages();
+});
