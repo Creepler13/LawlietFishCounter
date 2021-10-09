@@ -21,7 +21,7 @@ module.exports = class LawlietFishCounter {
           ).filter((n) => n)[1];
           if (this.getVersion() != newVersion)
             BdApi.showConfirmationModal(
-              "Newer version found",
+              "LawlietFishCounter - Newer version found",
               "LawlietFishCounter found a newer version " +
                 newVersion +
                 ". Please click Download Now to install it.",
@@ -38,7 +38,7 @@ module.exports = class LawlietFishCounter {
   }
 
   getVersion() {
-    return "0.1.6";
+    return "0.1.7";
   }
 
   start() {}
