@@ -27,7 +27,7 @@
                 confirmText: "Download Now",
                 cancelText: "Cancel",
                 onCancel: () => {},
-                onConfirm: update,
+                onConfirm: ()=>update(body),
               }
             );
         }
@@ -36,7 +36,7 @@
   }
 
   getVersion() {
-    return "0.1.4";
+    return "0.1.5";
   }
 
   start() {}
