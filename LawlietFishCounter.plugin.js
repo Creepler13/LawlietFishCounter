@@ -8,7 +8,7 @@
  * @authorId 264027550240604161
  */
 
-module.exports = class LawlietFishCounter {
+ module.exports = class LawlietFishCounter {
   load() {
     require("request").get(
       "https://raw.githubusercontent.com/Creepler13/LawlietFishCounter/main/LawlietFishCounter.plugin.js",
@@ -38,7 +38,7 @@ module.exports = class LawlietFishCounter {
   }
 
   getVersion() {
-    return "0.1.8";
+    return "0.1.10";
   }
 
   start() {}
