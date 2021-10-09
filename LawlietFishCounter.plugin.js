@@ -2,27 +2,15 @@
  * @name LawlietFishCounter
  * @version 0.0.1
  * @author Creepler13
- * @description Just a simple description of the content that may
- * end up being pretty long
+ * @description Counts the Fish for the Lawliet work option
+ * @updateUrl https://raw.githubusercontent.com/Creepler13/LawlietFishCounter/main/LawlietFishCounter.plugin.js
+ * @source https://github.com/Creepler13/LawlietFishCounter
+ *
  */
-
 module.exports = class LawlietFishCounter {
-  load() {} // Optional function. Called when the plugin is loaded in to memory
-
-  start() {
-    /* let divs = document
-    .getElementsByTagName("div")
-
-    for (let index = 0; index < divs.length; index++) {
-        const element = divs[index];
-        if(element.className.startsWith("base")){
-         observer.observe(element.children[0],{attributes:true})
-         
-        }
-    }
-*/
-  } // Required function. Called when the plugin is activated (including after reloads)
-  stop() {} // Required function. Called when the plugin is deactivated
+  load() {}
+  start() {}
+  stop() {}
 
   observer(changes) {
     if (changes.type != "childList") return;
