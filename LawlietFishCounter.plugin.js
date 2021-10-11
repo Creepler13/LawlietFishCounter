@@ -6,7 +6,7 @@
  * @source https://github.com/Creepler13/LawlietFishCounter
  * @authorLink https://github.com/Creepler13
  * @authorId 264027550240604161
- * @version 0.2.11
+ * @version 0.2.12
  */
 
  const { spawn } = require("child_process");
